@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h2>EMPLOYEE LIST</h2>
+    <a th:href="'/add'" th:text="'+ Add Employee'"></a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Details</th>
+            <th colspan="2">Actions</th>
+        </tr>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.id}"/>
+            <td th:text="${employee.name}"></td>
+            <td>
+                <img th:src="'/images/' + ${employee.image}" width="100" height="100"/>
+            </td>
+            <td>
+                <a th:href="'/detail/' + ${employee.id}" th:text="'See more...'"></a>
+            </td>
+            <td>
+                <a th:href="'/update/' + ${employee.id}" th:text="'Update'"></a>
+            </td>
+            <td>
+                <a th:href="'/delete/' + ${employee.id}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

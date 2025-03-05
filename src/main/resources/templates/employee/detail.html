@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Details</title>
+</head>
+<body>
+  <div class="container">
+    <p th:text="${employee.id}"></p>
+    <p th:text="${employee.name}"></p>
+    <p th:text="${employee.age}"></p>
+    <img th:src="'../images/' + ${employee.image}" width="200" height="200">
+    <p th:text="${employee.address}"></p>
+  </div>
+</body>
+</html>

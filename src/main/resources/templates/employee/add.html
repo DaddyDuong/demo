@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Employee</title>
+</head>
+<body>
+<div>
+    <h2>ADD EMPLOYEE</h2>
+    <form th:action="'/save'" th:object="${employee}" method="post">
+        <p>
+            <label>Employee name: </label>
+            <input type="text" th:field="${employee.name}">
+        </p>
+        <p>
+            <label>Employee age: </label>
+            <input type="number" th:field="${employee.age}">
+        </p>
+        <p>
+            <label>Employee image: </label>
+            <input type="file" th:field="${employee.image}">
+        </p>
+        <p>
+            <label>Employee address: </label>
+            <input type="text" th:field="${employee.address}">
+        </p>
+        <p>
+            <button type="submit">ADD</button>
+        </p>
+    </form>
+</div>
+</body>
+</html>
