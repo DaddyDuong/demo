@@ -1,6 +1,7 @@
 package com.hanu.se2.demo.controllers;
 
 import com.hanu.se2.demo.models.Employee;
+import com.hanu.se2.demo.repository.CompanyRepository;
 import com.hanu.se2.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,10 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     EmployeeRepository employeeRepository;
+
+    // Add to EmployeeController.java
+    @Autowired
+    CompanyRepository companyRepository;
 
     @RequestMapping(value = "/")
     public String getAllEmployee(Model model) {
@@ -31,30 +36,35 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String deleteEmployee(@PathVariable long id, Model model) {
-        Employee employee = employeeRepository.getReferenceById(id);
-        employeeRepository.delete(employee);
+    public String deleteEmployee(@PathVariable("id") long id) {
+        if (employeeRepository.findById(id).isPresent()) {
+            Employee employee = employeeRepository.findById(id).get();
+            // Optional: check if employee is null
+            employeeRepository.delete(employee);
+        }
         return "redirect:/";
     }
 
-    @RequestMapping("/update/{id}")
-    public String updateEmployee(@PathVariable("id") long id, Model model) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
-        model.addAttribute("employee", employee);
-        return "employee/update";
-    }
-
+    // Update addEmployee method
     @RequestMapping("/add")
     public String addEmployee(Model model) {
-        Employee employee = new Employee();
-        model.addAttribute("employee", employee);
+        model.addAttribute("employee", new Employee());
+        model.addAttribute("companies", companyRepository.findAll());
         return "employee/add";
+    }
+
+    // Update updateEmployee method
+    @RequestMapping("/update/{id}")
+    public String updateEmployee(@PathVariable("id") long id, Model model) {
+        model.addAttribute("employee", employeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id)));
+        model.addAttribute("companies", companyRepository.findAll());
+        return "employee/update";
     }
 
     @PostMapping("/save")
     public String saveEmployee(Employee employee) {
-        // TODO: Handle file upload
         employeeRepository.save(employee);
-        return "redirect:/";
+        return "redirect:/detail/" + employee.getId();
     }
 }
