@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
+@RequestMapping("/employee") // Add this base mapping
 public class EmployeeController {
     @Autowired
     EmployeeRepository employeeRepository;
