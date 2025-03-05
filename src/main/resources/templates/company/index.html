@@ -21,9 +21,9 @@
         <tr th:each="company : ${companies}">
             <td th:text="${company.id}"/>
             <td th:text="${company.name}"></td>
-            <td><img th:src="${company.image}" width="100" height="100"/></td>
+            <td><img th:src="${'/images/' + company.image}" width="100" height="100"/></td>
             <td th:text="${company.address}"></td>
-            <td><a th:href="'/company/' + ${company.id}">See details</a></td>
+            <td><a th:href="'/company/detail/' + ${company.id}">See details</a></td>
             <td><a th:href="'/company/update/' + ${company.id}">UPDATE</a></td>
             <td><a th:href="'/company/delete/' + ${company.id}">DELETE</a></td>
         </tr>

@@ -16,7 +16,7 @@
         </p>
         <p>
             <label>Company image:</label><br>
-            <img th:src="${company.image}" width="100" height="100"/>
+            <img th:src="${'/images/' + company.image}" width="100" height="100"/>
             <input type="text" th:field="*{image}"/>
         </p>
         <p>

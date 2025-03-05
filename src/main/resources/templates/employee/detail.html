@@ -9,13 +9,13 @@
 <div layout:fragment="content">
   <h2>EMPLOYEE DETAILS</h2>
   <div>
-    <img th:src="${employee.image}" width="210" height="210">
+    <img th:src="${'/images/' + employee.image}" width="210" height="210">
     <h3 th:text="${employee.name}"></h3>
     <p>Age: <span th:text="${employee.age}"></span></p>
     <p>Address: <span th:text="${employee.address}"></span></p>
     <p>Company:
       <a th:if="${employee.company != null}"
-         th:href="'/company/' + ${employee.company.id}"
+         th:href="'/company/detail/' + ${employee.company.id}"
          th:text="${employee.company.name}"></a>
       <span th:if="${employee.company == null}">Not assigned</span>
     </p>

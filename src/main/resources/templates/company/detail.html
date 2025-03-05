@@ -9,7 +9,7 @@
 <div layout:fragment="content">
     <h2>COMPANY DETAILS</h2>
     <div>
-        <img th:src="${company.image}" width="210" height="210">
+        <img th:src="${'/images/' + company.image}" width="210" height="210">
         <h3 th:text="${company.name}"></h3>
         <p>Address: <span th:text="${company.address}"></span></p>
     </div>
@@ -27,7 +27,7 @@
             <td th:text="${emp.id}"/>
             <td th:text="${emp.name}"></td>
             <td th:text="${emp.age}"></td>
-            <td><img th:src="${emp.image}" width="50" height="50"/></td>
+            <td><img th:src="${'/images/' + emp.image}" width="50" height="50"/></td>
             <td><a th:href="'/employee/detail/' + ${emp.id}">View</a></td>
         </tr>
     </table>

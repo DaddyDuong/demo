@@ -20,7 +20,7 @@
         <tr th:each="employee : ${employees}">
             <td th:text="${employee.id}"/>
             <td><a th:href="'/employee/detail/' + ${employee.id}" th:text="${employee.name}"/></td>
-            <td><img th:src="${employee.image}" width="100" height="100"/></td>
+            <td><img th:src="${'/images/' + employee.image}" width="100" height="100"/></td>
             <td th:text="${employee.company != null ? employee.company.name : 'N/A'}"></td>
             <td><a th:href="'/employee/update/' + ${employee.id}">UPDATE</a></td>
             <td><a th:href="'/employee/delete/' + ${employee.id}">DELETE</a></td>
