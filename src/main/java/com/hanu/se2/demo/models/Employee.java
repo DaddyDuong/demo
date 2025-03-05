@@ -13,11 +13,9 @@ public class Employee {
     private String image;
     private String address;
 
-    // Add to Employee.java
     @ManyToOne
     private Company company;
 
-    // Add getters and setters
     public Company getCompany() { return company; }
     public void setCompany(Company company) { this.company = company; }
 

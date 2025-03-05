@@ -15,7 +15,6 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private List<Employee> employees;
 
-    // Getters and setters
     public Long getId() { return id; }
 
     public String getName() { return name; }

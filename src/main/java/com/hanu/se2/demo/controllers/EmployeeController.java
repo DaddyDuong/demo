@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/employee") // Add this base mapping
+@RequestMapping("/employee")
 public class EmployeeController {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    // Add to EmployeeController.java
     @Autowired
     CompanyRepository companyRepository;
 
@@ -36,7 +35,6 @@ public class EmployeeController {
         return "employee/detail";
     }
 
-    // Update addEmployee method
     @RequestMapping("/add")
     public String addEmployee(Model model) {
         model.addAttribute("employee", new Employee());
@@ -44,7 +42,6 @@ public class EmployeeController {
         return "employee/add";
     }
 
-    // Update updateEmployee method
     @RequestMapping("/update/{id}")
     public String updateEmployee(@PathVariable("id") long id, Model model) {
         model.addAttribute("employee", employeeRepository.findById(id)

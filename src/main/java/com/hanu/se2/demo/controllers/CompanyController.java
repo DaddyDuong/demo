@@ -43,9 +43,7 @@ public class CompanyController {
 
     @GetMapping("/delete/{id}")
     public String deleteCompany(@PathVariable("id") Long id) {
-        if (companyRepository.findById(id).isPresent()) {
-            companyRepository.delete(companyRepository.findById(id).get());
-        }
+        companyRepository.delete(companyRepository.findById(id).get());
         return "redirect:/company/list";
     }
 
