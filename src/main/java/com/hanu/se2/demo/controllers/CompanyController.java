@@ -16,12 +16,13 @@ public class CompanyController {
     @GetMapping("/list")
     public String getAllCompany(Model model) {
         model.addAttribute("companies", companyRepository.findAll());
-        return "company/list";
+        return "company/index";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public String getCompanyById(@PathVariable("id") Long id, Model model) {
-        Company company = companyRepository.getById(id);
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid company Id:" + id));
         model.addAttribute("company", company);
         model.addAttribute("employees", company.getEmployees());
         return "company/detail";
@@ -40,17 +41,17 @@ public class CompanyController {
         return "company/update";
     }
 
-    @PostMapping("/save")
-    public String saveCompany(Company company) {
-        companyRepository.save(company);
-        return "redirect:/company/list";
-    }
-
     @GetMapping("/delete/{id}")
     public String deleteCompany(@PathVariable("id") Long id) {
         if (companyRepository.findById(id).isPresent()) {
             companyRepository.delete(companyRepository.findById(id).get());
         }
+        return "redirect:/company/list";
+    }
+
+    @PostMapping("/save")
+    public String saveCompany(Company company) {
+        companyRepository.save(company);
         return "redirect:/company/list";
     }
 }

@@ -22,7 +22,7 @@ public class EmployeeController {
     @Autowired
     CompanyRepository companyRepository;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/list")
     public String getAllEmployee(Model model) {
         List<Employee> employees = employeeRepository.findAll();
         model.addAttribute("employees", employees);
@@ -34,16 +34,6 @@ public class EmployeeController {
         Employee employee = employeeRepository.getReferenceById(id);
         model.addAttribute("employee", employee);
         return "employee/detail";
-    }
-
-    @RequestMapping(value = "/delete/{id}")
-    public String deleteEmployee(@PathVariable("id") long id) {
-        if (employeeRepository.findById(id).isPresent()) {
-            Employee employee = employeeRepository.findById(id).get();
-            // Optional: check if employee is null
-            employeeRepository.delete(employee);
-        }
-        return "redirect:/";
     }
 
     // Update addEmployee method
@@ -63,9 +53,19 @@ public class EmployeeController {
         return "employee/update";
     }
 
+    @RequestMapping(value = "/delete/{id}")
+    public String deleteEmployee(@PathVariable("id") long id) {
+        if (employeeRepository.findById(id).isPresent()) {
+            Employee employee = employeeRepository.findById(id).get();
+            // Optional: check if employee is null
+            employeeRepository.delete(employee);
+        }
+        return "redirect:/employee/list";
+    }
+
     @PostMapping("/save")
     public String saveEmployee(Employee employee) {
         employeeRepository.save(employee);
-        return "redirect:/detail/" + employee.getId();
+        return "redirect:/employee/list/";
     }
 }
