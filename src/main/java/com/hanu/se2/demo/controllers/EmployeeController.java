@@ -1,16 +1,17 @@
 package com.hanu.se2.demo.controllers;
 
+import com.hanu.se2.demo.models.Company;
 import com.hanu.se2.demo.models.Employee;
 import com.hanu.se2.demo.repository.CompanyRepository;
 import com.hanu.se2.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/employee")
@@ -22,9 +23,45 @@ public class EmployeeController {
     CompanyRepository companyRepository;
 
     @RequestMapping(value = "/list")
-    public String getAllEmployee(Model model) {
-        List<Employee> employees = employeeRepository.findAll();
+    public String getAllEmployee(
+            @RequestParam(value = "company", required = false, defaultValue = "0") Long comId,
+            @RequestParam(value = "sort", required = false, defaultValue = "0") int sortMode,
+            Model model) {
+
+        Sort.Direction sortOrder = Sort.Direction.DESC;
+        String sortColumn = "id";
+
+        if (sortMode == 1 || sortMode == 2) {
+            sortOrder = Sort.Direction.ASC;
+        }
+        if (sortMode == 2 || sortMode == 3) {
+            sortColumn = "name";
+        }
+
+        List<Employee> employees = null;
+        if (comId != 0) {
+            Optional<Company> comp = companyRepository.findById(comId);
+            if (comp.isPresent()) {
+                employees = employeeRepository.findByCompany(
+                        comp.get(),
+                        Sort.by(sortOrder, sortColumn)
+                );
+            }
+        }
+
+        if (employees == null) {
+            employees = employeeRepository.findAll(
+                    Sort.by(sortOrder, sortColumn)
+            );
+        }
+
+        List<Company> companies = companyRepository.findAll();
+
         model.addAttribute("employees", employees);
+        model.addAttribute("companies", companies);
+        model.addAttribute("comId", comId);
+        model.addAttribute("sortMode", sortMode);
+
         return "employee/index";
     }
 
@@ -54,7 +91,6 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable("id") long id) {
         if (employeeRepository.findById(id).isPresent()) {
             Employee employee = employeeRepository.findById(id).get();
-            // Optional: check if employee is null
             employeeRepository.delete(employee);
         }
         return "redirect:/employee/list";
